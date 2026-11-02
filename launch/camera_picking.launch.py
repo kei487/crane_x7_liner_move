@@ -43,6 +43,8 @@ def generate_launch_description():
         'robot_description_semantic': robot_description_semantic_config}
 
     kinematics_yaml = load_yaml('crane_x7_moveit_config', 'config/kinematics.yaml')
+    if kinematics_yaml and 'arm' in kinematics_yaml:
+        kinematics_yaml['arm']['kinematics_solver_timeout'] = 0.1
 
     # Gazebo用
     declare_use_sim_time = DeclareLaunchArgument(
@@ -51,17 +53,19 @@ def generate_launch_description():
     )
     # アームの動きのコードを起動するのはこっち
     picking_node = Node(# name="pick_and_move_tf",
-                        package='crane_x7_simple_examples',
+                        package='crane_x7_liner_move',
                         executable='pick_and_move_tf',
                         output='screen',
-                        parameters=[{'robot_description': description_loader.load()},
+                        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')},
+                                    {'robot_description': description_loader.load()},
                                     robot_description_semantic,
                                     kinematics_yaml])
     # 画像処理のコードを起動するのはこっち
     detection_node = Node(# name='color_detection'
-                          package='crane_x7_simple_examples',
+                          package='crane_x7_liner_move',
                           executable='color_detection',
-                          output='screen')
+                          output='screen',
+                          parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}])
 
     return LaunchDescription([
         declare_use_sim_time,

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>crane_x7_simple_examples</name>
+  <name>crane_x7_liner_move</name>
   <version>0.0.1</version>
   <description>programs to control CRANE-X7 package</description>
   <maintainer email="keitaro.nkmr0823@gmail.com">Keitaro Nakamura</maintainer>

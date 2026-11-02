@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(crane_x7_simple_examples)
+project(crane_x7_liner_move)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)

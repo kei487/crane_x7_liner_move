@@ -43,6 +43,9 @@ def generate_launch_description():
         'robot_description_semantic': robot_description_semantic_config}
 
     kinematics_yaml = load_yaml('crane_x7_moveit_config', 'config/kinematics.yaml')
+    # 直線補間は経路上の各点で逆運動学を解く。既定の 5ms では途中で解が欠ける。
+    if kinematics_yaml and 'arm' in kinematics_yaml:
+        kinematics_yaml['arm']['kinematics_solver_timeout'] = 0.1
 
     # Gazebo用
     declare_use_sim_time = DeclareLaunchArgument(
@@ -51,10 +54,11 @@ def generate_launch_description():
     )
     #パッケージ名の変更、実行するコードの変更は以下を編集してください
     example_node = Node(
-                        package='crane_x7_simple_examples',
+                        package='crane_x7_liner_move',
                         executable='pick_and_move',
                         output='screen',
-                        parameters=[{'robot_description': description_loader.load()},
+                        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')},
+                                    {'robot_description': description_loader.load()},
                                     robot_description_semantic,
                                     kinematics_yaml])
 

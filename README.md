@@ -102,13 +102,13 @@ source ~/.bashrc
 
   **terminal 1:** `ros2 launch crane_x7_gazebo crane_x7_with_table.launch.py `
 
-  **terminal 2:** `ros2 launch crane_x7_simple_examples pick_and_move.launch.py use_sim_time:='true'`
+  **terminal 2:** `ros2 launch crane_x7_liner_move pick_and_move.launch.py use_sim_time:=true`
 
 * for real machine
 
   **terminal 1:** `ros2 launch crane_x7_examples demo.launch.py port_name:=/dev/ttyUSB0`
 
-  **terminal 2:** `ros2 launch crane_x7_simple_examples pick_and_move.launch.py`
+  **terminal 2:** `ros2 launch crane_x7_liner_move pick_and_move.launch.py`
 
 ![pick_and_moveのデモ動画](https://github.com/cit22ros2/crane_x7_simple_examples/assets/79034190/1ae6a7f3-ab86-4d11-852e-52d320dc2758)
 
@@ -122,7 +122,7 @@ Realsenseを接続し次のコマンドで実行できます.
 
   **terminal 1:** `ros2 launch crane_x7_examples demo.launch.py port_name:=/dev/ttyUSB0 use_d435:=true`
 
-  **terminal 2:** `ros2 launch crane_x7_simple_examples camera_picking.launch.py`
+  **terminal 2:** `ros2 launch crane_x7_liner_move camera_picking.launch.py`
   
 ![camera_pickingのデモ動画](https://github.com/cit22ros2/crane_x7_simple_examples/assets/79034190/6f7d34e0-7bf0-4dd0-a9cf-9fd8b9e58e62)
 
