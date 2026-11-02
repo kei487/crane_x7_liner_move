@@ -94,6 +94,29 @@ source ~/.bashrc
 詳しくは[こちら](https://github.com/rt-net/crane_x7_ros/tree/ros2/crane_x7_examples#3-move_group%E3%81%A8controller%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B)
 を確認してください.   
 
+### linear_move_server / move_tip_straight_demo
+手先目標座標 `(x, y, z)` を入力し、直線移動の成否を返す ROS 2 サービスです。
+
+* サービス名: `/move_tip_straight`
+* 型: `crane_x7_liner_move/srv/MoveTipStraight`
+
+```
+# terminal 1: move_group / 実機 or Gazebo を起動した状態で
+ros2 launch crane_x7_liner_move linear_move_server.launch.py
+# Gazebo の場合
+ros2 launch crane_x7_liner_move linear_move_server.launch.py use_sim_time:=true
+
+# terminal 2: デモ（組み込みの接近→把持→持ち上げ→配置）
+ros2 run crane_x7_liner_move move_tip_straight_demo
+
+# または単発で目標座標を指定
+ros2 run crane_x7_liner_move move_tip_straight_demo -- 0.25 -0.15 0.10
+
+# CLI から直接呼ぶ例
+ros2 service call /move_tip_straight crane_x7_liner_move/srv/MoveTipStraight \
+  "{x: 0.25, y: -0.15, z: 0.10, use_custom_orientation: false}"
+```
+
 ### pick_and_move
 ピッキング（特定の場所にある物体を掴む・持ち上げる・運ぶ・置く）を行うコードです.   
 次のコマンドで実行できます.  

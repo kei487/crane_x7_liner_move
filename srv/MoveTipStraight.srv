@@ -1,0 +1,17 @@
+# 手先目標位置 [m]（基準フレーム: MoveIt の pose reference frame）
+float64 x
+float64 y
+float64 z
+
+# false のとき把持姿勢 RPY=(90,0,90)[deg] を使う
+bool use_custom_orientation
+float64 roll_deg
+float64 pitch_deg
+float64 yaw_deg
+---
+# 直線移動に成功したか
+bool success
+# 失敗理由や補足
+string message
+# computeCartesianPath の達成率 (0.0〜1.0, 失敗時は最後の試行値)
+float64 fraction

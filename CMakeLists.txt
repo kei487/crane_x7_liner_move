@@ -13,13 +13,22 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(angles REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(image_geometry REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(OpenCV REQUIRED COMPONENTS core)
 find_package(rclcpp REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/MoveTipStraight.srv"
+)
+
+rosidl_get_typesupport_target(cpp_typesupport_target
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 # ここから
 add_executable(color_detection
@@ -60,18 +69,34 @@ ament_target_dependencies(pick_and_move_tf
     tf2_geometry_msgs
 )
 
+add_executable(linear_move_server
+  src/linear_move_server.cpp
+)
+ament_target_dependencies(linear_move_server
+    angles
+    geometry_msgs
+    moveit_ros_planning_interface
+    rclcpp
+    tf2_geometry_msgs
+)
+target_link_libraries(linear_move_server "${cpp_typesupport_target}")
+
+add_executable(move_tip_straight_demo
+  src/move_tip_straight_demo.cpp
+)
+ament_target_dependencies(move_tip_straight_demo
+    rclcpp
+)
+target_link_libraries(move_tip_straight_demo "${cpp_typesupport_target}")
+
 # src下のソースコードはTARGETSで
 # launch下のlaunchファイルはDIRECTORYで
 install(TARGETS
   color_detection
-  DESTINATION lib/${PROJECT_NAME}/
-)
-install(TARGETS
-  pick_and_move 
-  DESTINATION lib/${PROJECT_NAME}/
-)
-install(TARGETS
+  pick_and_move
   pick_and_move_tf
+  linear_move_server
+  move_tip_straight_demo
   DESTINATION lib/${PROJECT_NAME}/
 )
 
@@ -85,4 +110,5 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+ament_export_dependencies(rosidl_default_runtime)
 ament_package()
